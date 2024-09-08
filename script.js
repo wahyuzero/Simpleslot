@@ -276,7 +276,7 @@ function showJackpotAnimation(jackpotAmount) {
         if (currentAmount < jackpotAmount) {
             currentAmount += Math.ceil(jackpotAmount / 100);
             if (currentAmount > jackpotAmount) currentAmount = jackpotAmount;
-            jackpotElement.textContent = `JACKPOT! x200 ${currentAmount}`;
+            jackpotElement.textContent = `MARWINNN!!! x200 ${currentAmount}`;
         } else {
             clearInterval(animationInterval);
             setTimeout(() => {
