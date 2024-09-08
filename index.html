@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slot Gacorrrr</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="warning">
+            PERHATIAN: Bermain slot dengan saldo asli dapat menyebabkan kerugian
+            finansial, kecanduan, masalah mental, dan kesulitan sosial. Bermainlah
+            dengan bijak!
+        </div>
+
+        <button id="musicControl" class="music-control" onclick="toggleMusic()">🔇</button>
+
+        <div id="welcomeScreen" class="welcome-screen">
+            <h1>Created by WahyuZero</h1>
+            <input type="text" id="nameInput" placeholder="Masukkan nama Anda">
+            <input type="number" id="balanceInput" placeholder="Masukkan saldo awal">
+            <button onclick="startGame()">Mulai Bermain</button>
+        </div>
+
+        <div id="slotMachine" class="slot-machine">
+            <h1>Slot Gacor Kang!!!</h1>
+            <div id="playerName"></div>
+            <div id="balance"></div>
+          <div id="betControls" class="bet-controls">
+        <label>Bet:</label>
+        <button onclick="decreaseBet()">-</button>
+        <span id="betAmount">10</span>
+        <button onclick="increaseBet()">+</button>
+        <br>
+        <!-- Auto Bet Options -->
+        <button onclick="setBet(10)">Bet 10</button>
+        <button onclick="setBet(100)">Bet 100</button>
+        <button onclick="setBet(1000)">Bet 1000</button>
+        <input type="number" id="customBet" placeholder="Custom Bet" oninput="setCustomBet()">
+    </div>
+
+    <div id="reels" class="reels"></div>
+    <button id="spinButton" onclick="spin()">Putar (Biaya: <span id="spinCost">10</span>)</button>
+<!-- Auto Spin Controls -->
+    <div id="autoSpinControls" class="auto-spin-controls">
+     <button id="autoSpin10">Auto Spin 10</button>
+<button id="autoSpin100">Auto Spin 100</button>
+<input type="number" id="customSpin" placeholder="Custom spins">
+<button id="startCustomAutoSpin">Start Custom Auto Spin</button>
+<div id="autoSpinCountdown"></div>
+    </div>
+    <div id="result"></div>
+    <div id="stats">
+                <p>Total Putaran: <span id="totalSpins">0</span></p>
+                <p>Total Kemenangan: <span id="totalWins">0</span></p>
+                <p>Jackpot Tertinggi: <span id="highestJackpot">0</span></p>
+            </div>
+        </div>
+    </div>
+
+    <audio id="backgroundMusic" loop>
+        <source src="bgm.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>

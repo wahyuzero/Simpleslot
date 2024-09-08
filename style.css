@@ -1,0 +1,311 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+}
+.flash-message {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.flash-message.show {
+    opacity: 1;
+}
+
+.flash-message.info {
+    background-color: #3498db;
+}
+
+.flash-message.success {
+    background-color: #2ecc71;
+}
+
+.flash-message.error {
+    background-color: #e74c3c;
+}
+
+.container {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    max-width: 90%;
+    width: 500px;
+    margin: 0 auto;
+    overflow-y: auto;
+    max-height: 90vh;
+}
+
+h1 {
+    color: #ffffff;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+.warning {
+    background-color: rgba(255, 0, 0, 0.8);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-weight: bold;
+    text-align: center;
+    animation: blink 3s infinite;
+}
+
+.welcome-screen, .slot-machine {
+    text-align: center;
+}
+
+.slot-machine {
+    display: none;
+}
+
+/* Bet Control and Auto Spin Control Styling */
+.bet-controls, .auto-spin-controls {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.bet-controls button, .bet-controls input, 
+.auto-spin-controls button, .auto-spin-controls input {
+    padding: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    flex: 1 1 auto;
+    min-width: 60px;
+    max-width: 120px;
+}
+
+input {
+    width: calc(100% - 20px);
+    padding: 8px;
+    margin: 5px 0;
+    border: none;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+button {
+    font-size: 16px;
+    padding: 8px 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+    margin-top: 5px;
+}
+
+button:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+.reels {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.reel {
+    width: 70px;
+    height: 240px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.reel-strip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: top 3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+.symbol {
+    width: 70px;
+    height: 70px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+}
+
+#balance, #result {
+    margin-top: 10px;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#playerName {
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.music-control {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.jackpot-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+    color: gold;
+    animation: jackpotFlash 0.5s infinite alternate;
+    z-index: 1000;
+}
+
+@keyframes jackpotFlash {
+    from { opacity: 0.5; }
+    to { opacity: 1; }
+}
+
+#spinButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+#stats {
+    margin-top: 15px;
+    font-size: 14px;
+    text-align: left;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 20px;
+    }
+
+    .bet-controls button, .auto-spin-controls button {
+        font-size: 12px;
+        padding: 6px;
+    }
+
+    .reels {
+        gap: 5px;
+    }
+
+    .reel {
+        width: 70px;
+        height: 210px;
+    }
+
+    .symbol {
+        width: 70px;
+        height: 70px;
+        font-size: 36px;
+    }
+}
+        #balance, #result {
+            margin-top: 10px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        #playerName {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        .music-control {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 20px;
+        }
+        .jackpot-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 48px;
+            color: gold;
+            animation: jackpotFlash 0.5s infinite alternate;
+            z-index: 1000;
+        }
+        @keyframes jackpotFlash {
+            from { opacity: 0.5; }
+            to { opacity: 1; }
+        }
+        #spinButton:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        #stats {
+            margin-top: 20px;
+            font-size: 14px;
+            text-align: left;
+        }
