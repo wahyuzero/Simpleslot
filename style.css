@@ -18,7 +18,7 @@ body {
     color: white;
     font-weight: bold;
     z-index: 1000;
-    opacity: 0;
+    opacity : 80%;
     transition: opacity 0.3s ease-in-out;
 }
 
@@ -28,14 +28,17 @@ body {
 
 .flash-message.info {
     background-color: #3498db;
+    opacity : 70%;
 }
 
 .flash-message.success {
     background-color: #2ecc71;
+    opacity : 70%;
 }
 
 .flash-message.error {
     background-color: #e74c3c;
+    opacity : 70%;
 }
 
 .container {
@@ -300,6 +303,56 @@ button:active {
             from { opacity: 0.5; }
             to { opacity: 1; }
         }
+
+/* Floating character animation */
+.floating-character {
+    position: fixed;
+    left: 20px;
+    bottom: 20px;
+    font-size: 4rem;
+    opacity: 25%;
+    animation: float 5s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-60px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* Connecting lines for matching symbols */
+.connecting-line {
+    position: absolute;
+    background-color: #FFD700;
+    height: 5px;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+/* Highlight matching symbols */
+.symbol.highlight {
+    animation: pulse 0.5s infinite alternate;
+}
+
+@keyframes pulse {
+    from { transform: scale(1); }
+    to { transform: scale(1.1); }
+}
+
+/* Responsive adjustments for floating character */
+@media (max-width: 768px) {
+    .floating-character {
+        font-size: 60px;
+        left: 10px;
+        bottom: 10px;
+    }
+}
         #spinButton:disabled {
             background-color: #cccccc;
             cursor: not-allowed;
