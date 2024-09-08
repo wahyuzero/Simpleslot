@@ -1,0 +1,1 @@
+Static Simple slot machine
