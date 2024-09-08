@@ -151,6 +151,13 @@ function spin() {
         return;
     }
 
+    // Remove existing highlights and lines
+    const highlightedSymbols = document.querySelectorAll('.symbol.highlight');
+    highlightedSymbols.forEach(symbol => symbol.classList.remove('highlight'));
+    
+    const existingLines = document.querySelectorAll('.connecting-line');
+    existingLines.forEach(line => line.remove());
+
     spinning = true;
     balance -= currentBet;
     updateBalance();
@@ -246,9 +253,10 @@ function checkWin() {
     updateBalance();
 
     if (winAmount > 0) {
-        resultElement.textContent = `Anda memenangkan ${winAmount}!`;
+        resultElement.textContent = `Kamu memenang ${winAmount}!`;
         totalWins += winAmount;
-        showFlashMessage(`Selamat! Anda memenangkan ${winAmount}!`, 'success');
+        showFlashMessage(`Selamat! Kamu menang ${winAmount}!`, 'success');
+        highlightWinningSymbols(visibleSymbols);
     } else {
         resultElement.textContent = 'Coba lagi!';
         showFlashMessage('Belum beruntung. Coba lagi!', 'info');
@@ -256,6 +264,97 @@ function checkWin() {
 
     updateStats();
 }
+
+
+function drawConnectingLines(positions) {
+    const reelsContainer = document.querySelector('.reels');
+    const existingLines = document.querySelectorAll('.connecting-line');
+    existingLines.forEach(line => line.remove());
+
+    function drawNextLine(index) {
+        if (index >= positions.length - 1) return;
+
+        const [x1, y1] = positions[index];
+        const [x2, y2] = positions[index + 1];
+
+        const symbol1 = document.querySelector(`.reel:nth-child(${x1 + 1}) .symbol:nth-child(${y1 + 1})`);
+        const symbol2 = document.querySelector(`.reel:nth-child(${x2 + 1}) .symbol:nth-child(${y2 + 1})`);
+
+        if (symbol1 && symbol2) {
+            const rect1 = symbol1.getBoundingClientRect();
+            const rect2 = symbol2.getBoundingClientRect();
+
+            const x = rect1.left + rect1.width / 2;
+            const y = rect1.top + rect1.height / 2;
+            const endX = rect2.left + rect2.width / 2;
+            const endY = rect2.top + rect2.height / 2;
+
+            const length = Math.sqrt(Math.pow(endX - x, 2) + Math.pow(endY - y, 2));
+            const angle = Math.atan2(endY - y, endX - x) * 180 / Math.PI;
+
+            const line = document.createElement('div');
+            line.className = 'connecting-line';
+            line.style.width = '0px';
+            line.style.left = `${x}px`;
+            line.style.top = `${y}px`;
+            line.style.transform = `rotate(${angle}deg)`;
+
+            reelsContainer.appendChild(line);
+
+            setTimeout(() => {
+                line.style.transition = 'width 0.03s ease-out';
+                line.style.width = `${length}px`;
+            }, 50);
+
+            setTimeout(() => drawNextLine(index + 1), 10);
+        }
+    }
+
+    // Start drawing lines
+    drawNextLine(0);
+
+    // Remove lines and highlights after a delay
+    setTimeout(() => {
+        const lines = document.querySelectorAll('.connecting-line');
+        lines.forEach(line => {
+            line.style.transition = 'opacity 0.5s ease-out';
+            line.style.opacity = '0';
+        });
+        
+        const highlightedSymbols = document.querySelectorAll('.symbol.highlight');
+        highlightedSymbols.forEach(symbol => {
+            symbol.style.transition = 'transform 0.5s ease-out';
+            symbol.style.transform = 'scale(1)';
+        });
+
+        setTimeout(() => {
+            lines.forEach(line => line.remove());
+            highlightedSymbols.forEach(symbol => symbol.classList.remove('highlight'));
+        }, 500);
+    }, positions.length * 300 + 1000);
+}
+
+function highlightWinningSymbols(visibleSymbols) {
+    const symbolElements = document.querySelectorAll('.symbol');
+    const winningPositions = [];
+
+    for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
+            const symbol = visibleSymbols[i][j];
+            const count = visibleSymbols.flat().filter(s => s === symbol).length;
+            if (count >= 3) {
+                const element = symbolElements[i * 4 + j];
+                element.classList.add('highlight');
+                element.style.transition = 'transform 0.3s ease-out';
+                element.style.transform = 'scale(1.1)';
+                winningPositions.push([i, j]);
+            }
+        }
+    }
+
+    drawConnectingLines(winningPositions);
+}
+
 
 function updateBalance() {
     balanceElement.textContent = `Saldo: ${balance}`;
